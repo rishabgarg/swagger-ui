@@ -1,1 +1,790 @@
-{"apiVersion":"1.0","swaggerVersion":"1.2","basePath":"http://localhost:9000","resourcePath":"/member/v1","produces":["application/json"],"apis":[{"path":"/member/v1/programs/{programid}/settings","operations":[{"method":"GET","summary":"Get master program settings","notes":"This method will return all or single setting for a particular master program.","type":"ApiPrometheusResponse","nickname":"GetMasterProgramSettings","produces":["application/json"],"protocols":["https"],"parameters":[{"name":"programId","description":"id of the master program fow which settings are required","required":true,"type":"string","paramType":"path","allowMultiple":false},{"name":"settingName","description":"name of setting that is required for a particular program","required":true,"type":"string","paramType":"path","allowMultiple":false}],"responseMessages":[{"code":200,"message":"Fetched single or all settings of this master program successfully.","responseModel":"ApiPrometheusResponse"},{"code":400,"message":"Oops, your fault. Something you sent me isn't quite right.","responseModel":"ApiPrometheusResponse"},{"code":500,"message":"Oops, my fault. Something went wrong on the server side.","responseModel":"ApiPrometheusResponse"}]}]},{"path":"/member/v1/insurance/subdomain/carriersandrules","operations":[{"method":"GET","summary":"To get the insurance carriers and rules","notes":"","type":"void","nickname":"getInsurerDataList","produces":["application/json"],"protocols":["https"],"parameters":[{"name":"organizationCode","description":"Organization code","required":false,"type":"string","paramType":"query","allowMultiple":false},{"name":"X-FORWARDED-FOR","description":"domain URL","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"uniqueRequestId","description":"authorization header containing Unique Request Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"organizationId","description":"authorization header containing Organization Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"applicationName","description":"authorization header for Application Name","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"authorizedUserID","description":"authorization header for Authorized User Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"authorizedSignatureToken","description":"authorization header for Authorized Signature Token","required":true,"type":"string","paramType":"header","allowMultiple":false}],"responseMessages":[{"code":200,"message":"0: Successful Api Request | TRK01_ERR_0065: Invalid Response Object  | EB01_ERR_0003: No Data Found | EB01_ERR_0012: Unable to identify domain name","responseModel":"PrometheusApiResponse"}]}]},{"path":"/member/v1/member/insurance/eligibilitycheck/{memberId}","operations":[{"method":"POST","summary":"To verify the eligibility of the members insurance against ESRA and update the verification status in the system","notes":"","type":"void","nickname":"checkInsuranceEligibility","produces":["application/json"],"consumes":["application/json"],"protocols":["https"],"parameters":[{"name":"memberId","description":"Member ID","required":true,"type":"string","paramType":"path","allowMultiple":false},{"name":"isOngoingEligibilityCheck","description":"Ongoing Eligibility Check","defaultValue":"false","required":false,"type":"boolean","paramType":"query","allowMultiple":false,"enum":["true"," false"]},{"name":"checkInsuranceEligibility","required":true,"type":"string","paramType":"body","allowMultiple":false},{"name":"uniqueRequestId","description":"authorization header containing Unique Request Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"organizationId","description":"authorization header containing Organization Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"applicationName","description":"authorization header for Application Name","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"authorizedUserID","description":"authorization header for Authorized User Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"authorizedSignatureToken","description":"authorization header for Authorized Signature Token","required":true,"type":"string","paramType":"header","allowMultiple":false}],"responseMessages":[{"code":200,"message":"0: Successful Api Request | EB01_ERR_0011: Insurance Organization not found | EB01_ERR_0010: Warning returned by ESRA during eligibility check | EB01_ERR_0013: An account already exists for the given insurance information. Please check the details and try again | EB01_ERR_0005: Organization Config is not properly set | EB01_ERR_0007: InsCarrier not found | EB01_ERR_0006: Member is not Eligible | EB01_ERR_0005: Organization Config is not properly set | EB01_ERR_0003: No Data Found | CE01_ERR_0002: Insufficient Input Parameters | MP01_ERR_0003: Unable to retrieve correct account. Please contact support | EB01_ERR_0004: Server Error","responseModel":"PrometheusApiResponse"}]}]},{"path":"/member/v1/member/{memberid}/preferences/update","operations":[{"method":"POST","summary":"To update member's preferences","notes":"","type":"void","nickname":"updatePreferences","produces":["application/json"],"consumes":["application/json"],"protocols":["https"],"parameters":[{"name":"memberId","description":"Member ID","required":true,"type":"string","paramType":"path","allowMultiple":false},{"name":"updatePreferences","required":true,"type":"string","paramType":"body","allowMultiple":false},{"name":"uniqueRequestId","description":"authorization header containing Unique Request Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"organizationId","description":"authorization header containing Organization Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"applicationName","description":"authorization header for Application Name","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"authorizedUserID","description":"authorization header for Authorized User Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"authorizedSignatureToken","description":"authorization header for Authorized Signature Token","required":true,"type":"string","paramType":"header","allowMultiple":false}],"responseMessages":[{"code":200,"message":"0: Successful Api Request | CE01_ERR_0002: Insufficient Input Parameters","responseModel":"PrometheusApiResponse"}]}]},{"path":"/member/v1/member/{memberId}/documents/{category}","operations":[{"method":"GET","summary":"To get member's documents associated with the given category","notes":"","type":"void","nickname":"getMemberDocuments","produces":["application/json"],"protocols":["https"],"parameters":[{"name":"memberId","description":"Member ID","required":true,"type":"string","paramType":"path","allowMultiple":false},{"name":"category","description":"Insurance Provider category","required":true,"type":"string","paramType":"path","allowMultiple":false},{"name":"memberId","description":"Document version","required":false,"type":"string","paramType":"query","allowMultiple":false},{"name":"mhpId","description":"Member program Id","required":false,"type":"string","paramType":"query","allowMultiple":false},{"name":"lookupForAllPrograms","description":"If true, looks up for all programs","defaultValue":"false","required":false,"type":"boolean","paramType":"query","allowMultiple":false,"enum":["true"," false"]},{"name":"lookupForLatestOnly","description":"If true, looks up for latest only","defaultValue":"false","required":false,"type":"boolean","paramType":"query","allowMultiple":false,"enum":["true"," false"]},{"name":"lookupByAgreement","description":"If true, looks up by agreement","defaultValue":"false","required":false,"type":"boolean","paramType":"query","allowMultiple":false,"enum":["true"," false"]},{"name":"uniqueRequestId","description":"authorization header containing Unique Request Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"organizationId","description":"authorization header containing Organization Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"applicationName","description":"authorization header for Application Name","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"authorizedUserID","description":"authorization header for Authorized User Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"authorizedSignatureToken","description":"authorization header for Authorized Signature Token","required":true,"type":"string","paramType":"header","allowMultiple":false}],"responseMessages":[{"code":200,"message":"0: Successful Api Request | DOC01_ERR_0016: Member already view the agreement | DOC01_ERR_0009: No Health Program found for Member Organization | DOC01_ERR_0006: Member is not participating in the given program | DOC01_ERR_0010: No Active Health Program found for Member | DOC01_ERR_0008: Invalid member ID | DOC01_ERR_0015: No Document Found | DOC01_ERR_0001: No Documents Registered for Given Program | DOC01_ERR_0002: No Documents Registered for Given Category in the Given Program | DOC01_ERR_0004: Given version of the document specified does not exist","responseModel":"PrometheusApiResponse"}]}]},{"path":"/member/v1/member/{memberId}/document/agreement/update","operations":[{"method":"POST","summary":"To update member document agreement status","notes":"","type":"void","nickname":"updateMemberDocumentAgreement","produces":["application/json"],"consumes":["application/json"],"protocols":["https"],"parameters":[{"name":"memberId","description":"Member ID","required":true,"type":"string","paramType":"path","allowMultiple":false},{"name":"updateMemberDocumentAgreement","required":true,"type":"string","paramType":"body","allowMultiple":false},{"name":"uniqueRequestId","description":"authorization header containing Unique Request Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"organizationId","description":"authorization header containing Organization Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"applicationName","description":"authorization header for Application Name","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"authorizedUserID","description":"authorization header for Authorized User Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"authorizedSignatureToken","description":"authorization header for Authorized Signature Token","required":true,"type":"string","paramType":"header","allowMultiple":false}],"responseMessages":[{"code":200,"message":"0: Successful Api Request | TRK01_ERR_0065: Invalid Response Object | DOC01_ERR_0014: Invalid Signature | DOC01_ERR_0013: Invalid Action | DOC01_ERR_0012: No Document Registered for Given document ID | DOC01_ERR_0011: No Active Membership found for Member","responseModel":"PrometheusApiResponse"}]}]},{"path":"/member/v1/organization/branding","operations":[{"method":"GET","summary":"To get the branding information of the given organization","notes":"","type":"void","nickname":"getOrgBrandingInfo","produces":["application/json"],"protocols":["https"],"parameters":[{"name":"lookupType","description":"Type of the use","required":false,"type":"string","paramType":"query","allowMultiple":false},{"name":"lookupId","description":"Organization Id","required":false,"type":"string","paramType":"query","allowMultiple":false},{"name":"getContentfulCreds","description":"If true, gets contentful creds","defaultValue":"false","required":false,"type":"boolean","paramType":"query","allowMultiple":false,"enum":["true"," false"]},{"name":"category","description":"Branding category","required":false,"type":"string","paramType":"query","allowMultiple":false},{"name":"uniqueRequestId","description":"authorization header containing Unique Request Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"organizationId","description":"authorization header containing Organization Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"applicationName","description":"authorization header for Application Name","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"authorizedUserID","description":"authorization header for Authorized User Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"authorizedSignatureToken","description":"authorization header for Authorized Signature Token","required":true,"type":"string","paramType":"header","allowMultiple":false}],"responseMessages":[{"code":200,"message":"0: Successful Api Request | CE01_ERR_0002: Insufficient Input Parameters","responseModel":"PrometheusApiResponse"}]}]},{"path":"/member/v1/organization/picklist/category/{category}","operations":[{"method":"GET","summary":"Gets picklist values for given category","notes":"","type":"void","nickname":"picklist","produces":["application/json"],"protocols":["https"],"parameters":[{"name":"category","description":"category name","required":true,"type":"string","paramType":"path","allowMultiple":false},{"name":"uniqueRequestId","description":"authorization header containing Unique Request Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"organizationId","description":"authorization header containing Organization Id","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"applicationName","description":"authorization header for Application Name","required":true,"type":"string","paramType":"header","allowMultiple":false},{"name":"authorizedSignatureToken","description":"authorization header for Authorized Signature Token","required":true,"type":"string","paramType":"header","allowMultiple":false}],"responseMessages":[{"code":200,"message":"0 : Successful Api Request | CE01_ERR_000: Insufficient Input Parameters","responseModel":"PrometheusApiResponse"}]}]}],"models":{"PagingMetaData":{"id":"PagingMetaData","properties":{"totalPages":{"type":"integer","format":"int32"},"pageNumber":{"type":"integer","format":"int32"},"totalSize":{"type":"integer","format":"int64"}}},"PrometheusApiResponse":{"id":"PrometheusApiResponse","properties":{"responseCode":{"type":"string"},"responseData":{"type":"string"},"errorMessage":{"type":"string"},"errorMessageData":{"type":"string"},"pagingMetaData":{"$ref":"PagingMetaData"}}},"ApiPrometheusResponse":{"id":"ApiPrometheusResponse","properties":{"ResponseStatus":{"type":"string"},"ResponseMessage":{"type":"string"},"ResponseCode":{"type":"string"},"ResponseData":{"$ref":"Object"},"PagingMetaData":{"$ref":"PagingMetaData"},"UniqueRequestID":{"type":"string"},"HttpStatusCode":{"type":"integer","format":"int32"}}}}}
+{
+   "apiVersion":"1.0",
+   "swaggerVersion":"1.2",
+   "basePath":"http://localhost:9000",
+   "resourcePath":"Member",
+   "produces":[
+      "application/json"
+   ],
+   "apis":[
+      {
+         "path":"/member/v1/programs/{programid}/settings",
+         "operations":[
+            {
+               "method":"GET",
+               "summary":"Get master program settings",
+               "notes":"This method will return all or single setting for a particular master program.",
+               "type":"ApiPrometheusResponse",
+               "nickname":"GetMasterProgramSettings",
+               "produces":[
+                  "application/json"
+               ],
+               "protocols":[
+                  "https"
+               ],
+               "parameters":[
+                  {
+                     "name":"programId",
+                     "description":"id of the master program fow which settings are required",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"path",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"settingName",
+                     "description":"name of setting that is required for a particular program",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"path",
+                     "allowMultiple":false
+                  }
+               ],
+               "responseMessages":[
+                  {
+                     "code":200,
+                     "message":"Fetched single or all settings of this master program successfully.",
+                     "responseModel":"ApiPrometheusResponse"
+                  },
+                  {
+                     "code":400,
+                     "message":"Oops, your fault. Something you sent me isn't quite right.",
+                     "responseModel":"ApiPrometheusResponse"
+                  },
+                  {
+                     "code":500,
+                     "message":"Oops, my fault. Something went wrong on the server side.",
+                     "responseModel":"ApiPrometheusResponse"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "path":"/member/v1/insurance/subdomain/carriersandrules",
+         "operations":[
+            {
+               "method":"GET",
+               "summary":"To get the insurance carriers and rules",
+               "notes":"",
+               "type":"void",
+               "nickname":"getInsurerDataList",
+               "produces":[
+                  "application/json"
+               ],
+               "protocols":[
+                  "https"
+               ],
+               "parameters":[
+                  {
+                     "name":"organizationCode",
+                     "description":"Organization code",
+                     "required":false,
+                     "type":"string",
+                     "paramType":"query",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"X-FORWARDED-FOR",
+                     "description":"domain URL",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"uniqueRequestId",
+                     "description":"authorization header containing Unique Request Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"organizationId",
+                     "description":"authorization header containing Organization Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"applicationName",
+                     "description":"authorization header for Application Name",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"authorizedUserID",
+                     "description":"authorization header for Authorized User Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"authorizedSignatureToken",
+                     "description":"authorization header for Authorized Signature Token",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  }
+               ],
+               "responseMessages":[
+                  {
+                     "code":200,
+                     "message":"0: Successful Api Request | TRK01_ERR_0065: Invalid Response Object  | EB01_ERR_0003: No Data Found | EB01_ERR_0012: Unable to identify domain name",
+                     "responseModel":"PrometheusApiResponse"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "path":"/member/v1/member/insurance/eligibilitycheck/{memberId}",
+         "operations":[
+            {
+               "method":"POST",
+               "summary":"To verify the eligibility of the members insurance against ESRA and update the verification status in the system",
+               "notes":"",
+               "type":"void",
+               "nickname":"checkInsuranceEligibility",
+               "produces":[
+                  "application/json"
+               ],
+               "consumes":[
+                  "application/json"
+               ],
+               "protocols":[
+                  "https"
+               ],
+               "parameters":[
+                  {
+                     "name":"memberId",
+                     "description":"Member ID",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"path",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"isOngoingEligibilityCheck",
+                     "description":"Ongoing Eligibility Check",
+                     "defaultValue":"false",
+                     "required":false,
+                     "type":"boolean",
+                     "paramType":"query",
+                     "allowMultiple":false,
+                     "enum":[
+                        "true",
+                        " false"
+                     ]
+                  },
+                  {
+                     "name":"checkInsuranceEligibility",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"body",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"uniqueRequestId",
+                     "description":"authorization header containing Unique Request Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"organizationId",
+                     "description":"authorization header containing Organization Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"applicationName",
+                     "description":"authorization header for Application Name",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"authorizedUserID",
+                     "description":"authorization header for Authorized User Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"authorizedSignatureToken",
+                     "description":"authorization header for Authorized Signature Token",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  }
+               ],
+               "responseMessages":[
+                  {
+                     "code":200,
+                     "message":"0: Successful Api Request | EB01_ERR_0011: Insurance Organization not found | EB01_ERR_0010: Warning returned by ESRA during eligibility check | EB01_ERR_0013: An account already exists for the given insurance information. Please check the details and try again | EB01_ERR_0005: Organization Config is not properly set | EB01_ERR_0007: InsCarrier not found | EB01_ERR_0006: Member is not Eligible | EB01_ERR_0005: Organization Config is not properly set | EB01_ERR_0003: No Data Found | CE01_ERR_0002: Insufficient Input Parameters | MP01_ERR_0003: Unable to retrieve correct account. Please contact support | EB01_ERR_0004: Server Error",
+                     "responseModel":"PrometheusApiResponse"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "path":"/member/v1/member/{memberid}/preferences/update",
+         "operations":[
+            {
+               "method":"POST",
+               "summary":"To update member's preferences",
+               "notes":"",
+               "type":"void",
+               "nickname":"updatePreferences",
+               "produces":[
+                  "application/json"
+               ],
+               "consumes":[
+                  "application/json"
+               ],
+               "protocols":[
+                  "https"
+               ],
+               "parameters":[
+                  {
+                     "name":"memberId",
+                     "description":"Member ID",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"path",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"updatePreferences",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"body",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"uniqueRequestId",
+                     "description":"authorization header containing Unique Request Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"organizationId",
+                     "description":"authorization header containing Organization Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"applicationName",
+                     "description":"authorization header for Application Name",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"authorizedUserID",
+                     "description":"authorization header for Authorized User Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"authorizedSignatureToken",
+                     "description":"authorization header for Authorized Signature Token",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  }
+               ],
+               "responseMessages":[
+                  {
+                     "code":200,
+                     "message":"0: Successful Api Request | CE01_ERR_0002: Insufficient Input Parameters",
+                     "responseModel":"PrometheusApiResponse"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "path":"/member/v1/member/{memberId}/documents/{category}",
+         "operations":[
+            {
+               "method":"GET",
+               "summary":"To get member's documents associated with the given category",
+               "notes":"",
+               "type":"void",
+               "nickname":"getMemberDocuments",
+               "produces":[
+                  "application/json"
+               ],
+               "protocols":[
+                  "https"
+               ],
+               "parameters":[
+                  {
+                     "name":"memberId",
+                     "description":"Member ID",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"path",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"category",
+                     "description":"Insurance Provider category",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"path",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"memberId",
+                     "description":"Document version",
+                     "required":false,
+                     "type":"string",
+                     "paramType":"query",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"mhpId",
+                     "description":"Member program Id",
+                     "required":false,
+                     "type":"string",
+                     "paramType":"query",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"lookupForAllPrograms",
+                     "description":"If true, looks up for all programs",
+                     "defaultValue":"false",
+                     "required":false,
+                     "type":"boolean",
+                     "paramType":"query",
+                     "allowMultiple":false,
+                     "enum":[
+                        "true",
+                        " false"
+                     ]
+                  },
+                  {
+                     "name":"lookupForLatestOnly",
+                     "description":"If true, looks up for latest only",
+                     "defaultValue":"false",
+                     "required":false,
+                     "type":"boolean",
+                     "paramType":"query",
+                     "allowMultiple":false,
+                     "enum":[
+                        "true",
+                        " false"
+                     ]
+                  },
+                  {
+                     "name":"lookupByAgreement",
+                     "description":"If true, looks up by agreement",
+                     "defaultValue":"false",
+                     "required":false,
+                     "type":"boolean",
+                     "paramType":"query",
+                     "allowMultiple":false,
+                     "enum":[
+                        "true",
+                        " false"
+                     ]
+                  },
+                  {
+                     "name":"uniqueRequestId",
+                     "description":"authorization header containing Unique Request Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"organizationId",
+                     "description":"authorization header containing Organization Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"applicationName",
+                     "description":"authorization header for Application Name",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"authorizedUserID",
+                     "description":"authorization header for Authorized User Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"authorizedSignatureToken",
+                     "description":"authorization header for Authorized Signature Token",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  }
+               ],
+               "responseMessages":[
+                  {
+                     "code":200,
+                     "message":"0: Successful Api Request | DOC01_ERR_0016: Member already view the agreement | DOC01_ERR_0009: No Health Program found for Member Organization | DOC01_ERR_0006: Member is not participating in the given program | DOC01_ERR_0010: No Active Health Program found for Member | DOC01_ERR_0008: Invalid member ID | DOC01_ERR_0015: No Document Found | DOC01_ERR_0001: No Documents Registered for Given Program | DOC01_ERR_0002: No Documents Registered for Given Category in the Given Program | DOC01_ERR_0004: Given version of the document specified does not exist",
+                     "responseModel":"PrometheusApiResponse"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "path":"/member/v1/member/{memberId}/document/agreement/update",
+         "operations":[
+            {
+               "method":"POST",
+               "summary":"To update member document agreement status",
+               "notes":"",
+               "type":"void",
+               "nickname":"updateMemberDocumentAgreement",
+               "produces":[
+                  "application/json"
+               ],
+               "consumes":[
+                  "application/json"
+               ],
+               "protocols":[
+                  "https"
+               ],
+               "parameters":[
+                  {
+                     "name":"memberId",
+                     "description":"Member ID",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"path",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"updateMemberDocumentAgreement",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"body",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"uniqueRequestId",
+                     "description":"authorization header containing Unique Request Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"organizationId",
+                     "description":"authorization header containing Organization Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"applicationName",
+                     "description":"authorization header for Application Name",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"authorizedUserID",
+                     "description":"authorization header for Authorized User Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"authorizedSignatureToken",
+                     "description":"authorization header for Authorized Signature Token",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  }
+               ],
+               "responseMessages":[
+                  {
+                     "code":200,
+                     "message":"0: Successful Api Request | TRK01_ERR_0065: Invalid Response Object | DOC01_ERR_0014: Invalid Signature | DOC01_ERR_0013: Invalid Action | DOC01_ERR_0012: No Document Registered for Given document ID | DOC01_ERR_0011: No Active Membership found for Member",
+                     "responseModel":"PrometheusApiResponse"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "path":"/member/v1/organization/branding",
+         "operations":[
+            {
+               "method":"GET",
+               "summary":"To get the branding information of the given organization",
+               "notes":"",
+               "type":"void",
+               "nickname":"getOrgBrandingInfo",
+               "produces":[
+                  "application/json"
+               ],
+               "protocols":[
+                  "https"
+               ],
+               "parameters":[
+                  {
+                     "name":"lookupType",
+                     "description":"Type of the use",
+                     "required":false,
+                     "type":"string",
+                     "paramType":"query",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"lookupId",
+                     "description":"Organization Id",
+                     "required":false,
+                     "type":"string",
+                     "paramType":"query",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"getContentfulCreds",
+                     "description":"If true, gets contentful creds",
+                     "defaultValue":"false",
+                     "required":false,
+                     "type":"boolean",
+                     "paramType":"query",
+                     "allowMultiple":false,
+                     "enum":[
+                        "true",
+                        " false"
+                     ]
+                  },
+                  {
+                     "name":"category",
+                     "description":"Branding category",
+                     "required":false,
+                     "type":"string",
+                     "paramType":"query",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"uniqueRequestId",
+                     "description":"authorization header containing Unique Request Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"organizationId",
+                     "description":"authorization header containing Organization Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"applicationName",
+                     "description":"authorization header for Application Name",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"authorizedUserID",
+                     "description":"authorization header for Authorized User Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"authorizedSignatureToken",
+                     "description":"authorization header for Authorized Signature Token",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  }
+               ],
+               "responseMessages":[
+                  {
+                     "code":200,
+                     "message":"0: Successful Api Request | CE01_ERR_0002: Insufficient Input Parameters",
+                     "responseModel":"PrometheusApiResponse"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "path":"/member/v1/organization/picklist/category/{category}",
+         "operations":[
+            {
+               "method":"GET",
+               "summary":"Gets picklist values for given category",
+               "notes":"",
+               "type":"void",
+               "nickname":"picklist",
+               "produces":[
+                  "application/json"
+               ],
+               "protocols":[
+                  "https"
+               ],
+               "parameters":[
+                  {
+                     "name":"category",
+                     "description":"category name",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"path",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"uniqueRequestId",
+                     "description":"authorization header containing Unique Request Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"organizationId",
+                     "description":"authorization header containing Organization Id",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"applicationName",
+                     "description":"authorization header for Application Name",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  },
+                  {
+                     "name":"authorizedSignatureToken",
+                     "description":"authorization header for Authorized Signature Token",
+                     "required":true,
+                     "type":"string",
+                     "paramType":"header",
+                     "allowMultiple":false
+                  }
+               ],
+               "responseMessages":[
+                  {
+                     "code":200,
+                     "message":"0 : Successful Api Request | CE01_ERR_000: Insufficient Input Parameters",
+                     "responseModel":"PrometheusApiResponse"
+                  }
+               ]
+            }
+         ]
+      }
+   ],
+   "models":{
+      "PagingMetaData":{
+         "id":"PagingMetaData",
+         "properties":{
+            "totalPages":{
+               "type":"integer",
+               "format":"int32"
+            },
+            "pageNumber":{
+               "type":"integer",
+               "format":"int32"
+            },
+            "totalSize":{
+               "type":"integer",
+               "format":"int64"
+            }
+         }
+      },
+      "PrometheusApiResponse":{
+         "id":"PrometheusApiResponse",
+         "properties":{
+            "responseCode":{
+               "type":"string"
+            },
+            "responseData":{
+               "type":"string"
+            },
+            "errorMessage":{
+               "type":"string"
+            },
+            "errorMessageData":{
+               "type":"string"
+            },
+            "pagingMetaData":{
+               "$ref":"PagingMetaData"
+            }
+         }
+      },
+      "ApiPrometheusResponse":{
+         "id":"ApiPrometheusResponse",
+         "properties":{
+            "ResponseStatus":{
+               "type":"string"
+            },
+            "ResponseMessage":{
+               "type":"string"
+            },
+            "ResponseCode":{
+               "type":"string"
+            },
+            "ResponseData":{
+               "$ref":"Object"
+            },
+            "PagingMetaData":{
+               "$ref":"PagingMetaData"
+            },
+            "UniqueRequestID":{
+               "type":"string"
+            },
+            "HttpStatusCode":{
+               "type":"integer",
+               "format":"int32"
+            }
+         }
+      }
+   }
+}
