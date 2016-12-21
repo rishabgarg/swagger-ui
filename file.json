@@ -1,0 +1,1336 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": "v2.0"
+  },
+  "host": "api.rtccloud.net",
+  "basePath": "/v2.0/provider",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json",
+    "multipart/form-data"
+  ],
+  "securityDefinitions": {
+    "internalApiKey": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "internalApiKey": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": ""
+    },
+    {
+      "name": "Users",
+      "description": ""
+    },
+    {
+      "name": "Recordings",
+      "description": ""
+    },
+    {
+      "name": "Meetings",
+      "description": ""
+    },
+    {
+      "name": "Domains",
+      "description": ""
+    },
+    {
+      "name": "Profiles",
+      "description": ""
+    }
+  ],
+  "paths": {
+    "/usertoken": {
+      "post": {
+        "summary": "Get a new RTCC token",
+        "produces": ["application/json","application/xml"],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "formData",
+            "description": "User ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "domain",
+            "in": "formData",
+            "description": "domain or group the user belongs to",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "profile",
+            "in": "formData",
+            "description": "Capabilities granter to user by service class",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Authentication"
+        ],
+        "responses": {
+          "201": {
+            "description": "Token generated",
+            "schema": {
+              "$ref": "#/definitions/UserTokenResponse"
+            }
+          },
+          "400": {
+            "description": "Missing or error in given parameter(s)",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Get all users",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Number of results",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          },
+          "404": {
+            "description": "No users",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/users/{uid}": {
+      "get": {
+        "summary": "Get one user",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "User unique id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/UsersDetails"
+            }
+          },
+          "404": {
+            "description": "No users",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/users/{uid}/meetingpoints": {
+      "get": {
+        "summary": "Get the list of meetings for given user",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Meetings"
+        ],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "User unique id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/Meetingpoints"
+            }
+          },
+          "404": {
+            "description": "Meeting point not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+
+    },
+    "/users/{uid}/meetingpoints/{meetingpointid}": {
+      "get": {
+        "summary": "Get details for given meetingpointid",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Meetings"
+        ],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "User unique id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "meetingpointid",
+            "in": "path",
+            "description": "Meeting point identifier",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/Meetingpoints"
+            }
+          },
+          "404": {
+            "description": "No recording found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/users/{uid}/recordings": {
+      "get": {
+        "summary": "Get the list of recordings for given user",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Recordings"
+        ],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "User unique id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/Recordings"
+            }
+          },
+          "404": {
+            "description": "No recording found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+
+    },
+    "/users/{uid}/recordings/{filename}": {
+      "get": {
+        "summary": "Get details for given recording",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Recordings"
+        ],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "User unique id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "filename",
+            "in": "path",
+            "description": "the ID of the recording",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/RecordingsDetails"
+            }
+          },
+          "404": {
+            "description": "Recording not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/recordings": {
+      "get": {
+        "summary": "Get a list of available recordings",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Recordings"
+        ],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "query",
+            "description": "user's uid",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/Recordings"
+            }
+          },
+          "404": {
+            "description": "No recording found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/recordings/{filename}": {
+      "get": {
+        "summary": "Get details for given recording",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Recordings"
+        ],
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "path",
+            "description": "the ID of the recording",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/RecordingsDetails"
+            }
+          },
+          "404": {
+            "description": "Recording not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a recording and its associated S3 storage elements",
+        "produces": ["application/json","application/xml"],
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "path",
+            "description": "the ID of the recording",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Recordings"
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/DeleteResponse"
+            }
+          },
+          "404": {
+            "description": "Recording not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/meetingpoints": {
+      "get": {
+        "summary": "Get a list of your meetings",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Meetings"
+        ],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "query",
+            "description": "user's uid",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/Meetingpoints"
+            }
+          },
+          "404": {
+            "description": "No meeting point found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new meeting",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Meetings"
+        ],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "formData",
+            "description": "User's uid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "conftype",
+            "in": "formData",
+            "description": "meeting type (permanent, scheduled, hadhoc or hostless)",
+            "required": true,
+            "type": "string",
+            "default": "permanent"
+          },
+          {
+            "name": "mode",
+            "in": "formData",
+            "description": "meeting mode (default, auto-accept or locked)",
+            "required": false,
+            "type": "string",
+            "default": "default"
+          },
+          {
+            "name": "startdate",
+            "in": "formData",
+            "description": "meeting start date",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "stopdate",
+            "in": "formData",
+            "description": "meeting end date",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "title",
+            "in": "formData",
+            "description": "meeting title",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "location",
+            "in": "formData",
+            "description": "meeting location",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Meeting point created",
+            "schema": {
+              "$ref": "#/definitions/Meetingpoints"
+            }
+          },
+          "400": {
+            "description": "Missing or error in given parameter(s)",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "409": {
+            "description": "Permanent meeting point already exist",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/meetingpoints/{meetingpointid}": {
+      "get": {
+        "summary": "Get the details of one meeting",
+        "produces": ["application/json","application/xml"],
+        "parameters": [
+          {
+            "name": "meetingpointid",
+            "in": "path",
+            "description": "the ID of the meeting",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Meetings"
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/Meetingpoints"
+            }
+          },
+          "404": {
+            "description": "Meeting point not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Create a new meeting",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Meetings"
+        ],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "formData",
+            "description": "User's uid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "mode",
+            "in": "formData",
+            "description": "meeting mode (default, auto-accept or locked)",
+            "required": false,
+            "type": "string",
+            "default": "default"
+          },
+          {
+            "name": "startdate",
+            "in": "formData",
+            "description": "meeting start date",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "stopdate",
+            "in": "formData",
+            "description": "meeting end date",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "title",
+            "in": "formData",
+            "description": "meeting title",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "location",
+            "in": "formData",
+            "description": "meeting location",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Meeting point created",
+            "schema": {
+              "$ref": "#/definitions/Meetingpoints"
+            }
+          },
+          "400": {
+            "description": "Missing or error in given parameter(s)",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "409": {
+            "description": "Permanent meeting point already exist",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a meeting",
+        "produces": ["application/json","application/xml"],
+        "parameters": [
+          {
+            "name": "meetingpointid",
+            "in": "path",
+            "description": "the ID of the meeting",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Meetings"
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/DeleteResponse"
+            }
+          },
+          "404": {
+            "description": "Meeting point not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/profiles": {
+      "get": {
+        "summary": "Get profiles list",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Profiles"
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/Profiles"
+            }
+          }
+        }
+      }
+    },
+    "/profiles/{name}": {
+      "get": {
+        "summary": "Get profiles list",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Profiles"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "profile name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/ProfilesDetails"
+            }
+          }
+        }
+      }
+    },
+    "/profiles/{name}/identifiers": {
+      "get": {
+        "summary": "Get profile's identifiers list for given profile",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Profiles"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "profile name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/ProfilesIdentifiers"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new profile identifier",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "tags": [
+          "Profiles"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "profile name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "identifier",
+            "in": "formData",
+            "description": "new profile identifier",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Profile identifier added",
+            "schema": {
+              "$ref": "#/definitions/PostResponse"
+            }
+          }
+        }
+      }
+    },
+    "/profiles/{name}/identifiers/{identifier}": {
+      "delete": {
+        "summary": "Delete an existing profile identifier",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Profiles"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "profile name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "profile identifier",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/DeleteResponse"
+            }
+          }
+        }
+      }
+    },
+    "/domains": {
+      "get": {
+        "summary": "Get domains list",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Domains"
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/Domains"
+            }
+          }
+        }
+      }
+    },
+    "/domains/{name}": {
+      "get": {
+        "summary": "Get domains list",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Domains"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "domain name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/DomainsDetails"
+            }
+          }
+        }
+      }
+    },
+    "/domains/{name}/identifiers": {
+      "get": {
+        "summary": "Get domain's identifiers list",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Domains"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "domain name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/DomainsIdentifiers"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new domain identifier",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "tags": [
+          "Domains"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "domain name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "identifier",
+            "in": "formData",
+            "description": "new domain identifier",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Domain identifier created",
+            "schema": {
+              "$ref": "#/definitions/PostResponse"
+            }
+          }
+        }
+      }
+    },
+    "/domain/{name}/identifiers/{identifier}": {
+      "delete": {
+        "summary": "Delete an existing domain identifier",
+        "produces": ["application/json","application/xml"],
+        "tags": [
+          "Domains"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "domain name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "domain identifier",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "normal response",
+            "schema": {
+              "$ref": "#/definitions/DeleteResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserTokenResponse": {
+      "properties": {
+        "success": {
+          "type": "string",
+          "example": "true"
+        },
+        "data": {
+          "type": "string",
+          "example": "lnrsodluk3vmr1087nn1j83i51"
+        }
+      }
+    },
+    "Users": {
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "uid": {
+                "type": "string"
+              },
+              "created_date": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "lastconnection_date": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "profile": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "UsersDetails": {
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "uid": {
+                "type": "string"
+              },
+              "created_date": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "lastconnection_date": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "profile": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Meetingpoints": {
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "meetingpointid": {
+                "type": "string"
+              },
+              "conftype": {
+                "type": "string"
+              },
+              "start_date": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "stop_date": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "title": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ProfilesIdentifiers": {
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "identifier": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Profiles": {
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "default": {
+                "type": "boolean"
+              },
+              "quota": {
+                "type": "integer"
+              },
+              "identifiers": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "identifier": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ProfilesDetails": {
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "default": {
+                "type": "boolean"
+              },
+              "quota": {
+                "type": "integer"
+              },
+              "identifiers": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "identifier": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "DomainsIdentifiers": {
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "domain": {
+                "type": "string"
+              },
+              "identifier": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Domains": {
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "created_date": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "modified_date": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "default": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "DomainsDetails": {
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "created_date": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "modified_date": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "default": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Recordings": {
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "filename": {
+                "type": "string"
+              },
+              "uid": {
+                "type": "string"
+              },
+              "startdate": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "RecordingsDetails": {
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "filename": {
+                "type": "string"
+              },
+              "uid": {
+                "type": "string"
+              },
+              "startdate": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "stopdate": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "state": {
+                "type": "string"
+              },
+              "duration": {
+                "type": "integer"
+              },
+              "size": {
+                "type": "integer"
+              },
+              "nb_files": {
+                "type": "integer"
+              },
+              "main_link": {
+                "type": "string"
+              },
+              "metadata_link": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "DeleteResponse": {
+      "properties": {
+        "success": {
+          "type": "string",
+          "example": "true"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeleteModel"
+          }
+        }
+      }
+    },
+    "DeleteModel": {
+      "properties": {
+        "count": {
+          "type": "integer"
+        }
+      }
+    },
+    "PostResponse": {
+      "properties": {
+        "success": {
+          "type": "string",
+          "example": "true"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostModel"
+          }
+        }
+      }
+    },
+    "PostModel": {
+      "properties": {
+        "count": {
+          "type": "integer"
+        }
+      }
+    },
+    "ErrorModel": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "success": {
+          "type": "string",
+          "example": "false"
+        },
+        "message": {
+          "type": "string",
+          "description": "error description"
+        }
+      }
+    }
+  }
+}
