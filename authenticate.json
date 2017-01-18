@@ -14,10 +14,10 @@
         "application/json"
     ],
     "paths": {
-        "/auth/v2/user": {
+        "/auth/v2/authenticateuser": {
             "post": {
                 "summary": "Authenticate User",
-                "description": "The Products endpoint returns information about the *Uber* products\noffered at a given location. The response includes the display name\nand other details about each product, and lists the products in the\nproper display order.\n",
+                "description": "Authenticates the User.",
                 "parameters": [
                     {
                         "name": "authorizedSignatureToken",
@@ -62,12 +62,12 @@
                         "type": "string"
                     },
                     {
-                        "name": "user",
+                        "name": "body",
                         "in": "body",
-                        "description": "Latitude component of location.",
+                        "description": "User credentials to authenticate.",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/UserCredentials"
+                            "$ref": "#/definitions/AuthenticateUserRequest"
                         }
                     }
                 ],
@@ -76,24 +76,24 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "An array of products",
+                        "description": "Successful Response",
                         "schema": {
-                            "$ref": "#/definitions/Success"
+                            "$ref": "#/definitions/ApiSuccessResponse"
                         }
                     },
                     "default": {
-                        "description": "Unexpected error",
+                        "description": "Unexpected Error",
                         "schema": {
-                            "$ref": "#/definitions/Error"
+                            "$ref": "#/definitions/ApiErrorResponse"
                         }
                     }
                 }
             }
         },
-        "/auth/v2/application": {
+        "/auth/v2/authenticateapplication": {
             "post": {
-                "summary": "Authenticate Application",
-                "description": "The Products endpoint returns information about the *Uber* products\noffered at a given location. The response includes the display name\nand other details about each product, and lists the products in the\nproper display order.\n",
+                "summary": "Authenticate Application's Use",
+                "description": "Validates if the user is allowed to access the application.",
                 "parameters": [
                     {
                         "name": "authorizedSignatureToken",
@@ -138,12 +138,12 @@
                         "type": "string"
                     },
                     {
-                        "name": "user",
+                        "name": "body",
                         "in": "body",
-                        "description": "Latitude component of location.",
+                        "description": "User details to be authenticated.",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/UserCredentials"
+                            "$ref": "#/definitions/AuthenticateApplicationRequest"
                         }
                     }
                 ],
@@ -154,13 +154,13 @@
                     "200": {
                         "description": "An array of products",
                         "schema": {
-                            "$ref": "#/definitions/Success"
+                            "$ref": "#/definitions/ApiSuccessResponse"
                         }
                     },
                     "default": {
                         "description": "Unexpected error",
                         "schema": {
-                            "$ref": "#/definitions/Error"
+                            "$ref": "#/definitions/ApiErrorResponse"
                         }
                     }
                 }
@@ -168,7 +168,7 @@
         }
     },
     "definitions": {
-        "UserCredentials": {
+        "AuthenticateUserRequest": {
             "type": "object",
             "properties": {
                 "username": {
@@ -178,6 +178,28 @@
                 "password": {
                     "type": "string",
                     "description": "Password associated with username to authenticate."
+                },
+                "timeOfRequestInUTC": {
+                    "type": "string",
+                    "description": "Datetime value (yyyy-MM-ddThh:mm:ss.SSSZ) of what the time is when making the request."
+                }
+            }
+        },
+        "AuthenticateApplicationRequest": {
+            "type": "object",
+            "properties": {
+                "timeOfRequestInUTC": {
+                    "type": "string",
+                    "description": "Datetime value (yyyy-MM-ddThh:mm:ss.SSSZ) of what the time is when making the request."
+                }
+            }
+        },
+        "ValidUser": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string",
+                    "description": "Username to authenticate."
                 },
                 "userId": {
                     "type": "string",
@@ -197,7 +219,7 @@
                 }
             }
         },
-        "Success": {
+        "ApiSuccessResponse": {
             "type": "object",
             "properties": {
                 "ResponseStatus": {
@@ -213,21 +235,17 @@
                     "type": "string"
                 },
                 "ResponseData": {
-                    "$ref": "#/definitions/UserCredentials"
+                    "$ref": "#/definitions/ValidUser"
                 }
             }
         },
-        "Error": {
+        "ApiErrorResponse": {
             "type": "object",
             "properties": {
-                "code": {
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "message": {
+                "ErrorCode": {
                     "type": "string"
                 },
-                "fields": {
+                "ErrorMessage": {
                     "type": "string"
                 }
             }
